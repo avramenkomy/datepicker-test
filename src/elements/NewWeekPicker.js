@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { createStyles } from '@material-ui/styles';
@@ -8,20 +8,18 @@ import 'moment/locale/ru';
 
 import { IconButton, withStyles } from '@material-ui/core';
 
-class WeekPicker extends Component {
-  state = {
-    selectedDate: new Date(),
+function WeekPicker(props) {
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const MAX_DATE = new Date('3000-01-01');
+  const MIN_DATE = new Date('1970-01-01');
+
+  const handleWeekChange = date => {
+    setSelectedDate(moment(date).startOf('isoWeek'));
   };
 
-  MAX_DATE = new Date('3000-01-01');
-  MIN_DATE = new Date('1970-01-01');
-
-  handleWeekChange = date => {
-    this.setState({ selectedDate: moment(date).startOf('isoWeek') });
-  };
-
-  renderWrappedWeekDay = (date, selectedDate, dayInCurrentMonth) => {
-    const { classes } = this.props;
+  const renderWrappedWeekDay = (date, selectedDate, dayInCurrentMonth) => {
+    const { classes } = props;
     let dateClone = date;
     let selectedDateClone = selectedDate;
     
@@ -48,37 +46,33 @@ class WeekPicker extends Component {
     return (
       <div className={wrapperClassName}>
         <IconButton className={dayClassName}>
-          <span> {moment(dateClone).get('date')} </span>
+          <span> {moment(dateClone).get('date')}</span>
         </IconButton>
       </div>
     );
   };
 
-  render() {
-    const { selectedDate } = this.state;
-
-    return (
-      <MuiPickersUtilsProvider utils={MomentUtils} locale="ru">
-        <KeyboardDatePicker
-          label="Отчетный период неделя"
-          inputVariant="outlined"
-          cancelLabel="Отмена"
-          okLabel="Принять"
-          maxDateMessage="Дата должна быть меньше максимальной"
-          minDateMessage="Дата должна быть больше минимальной"
-          invalidDateMessage="Ошибочный формат ввода"
-          minDate={this.MIN_DATE}
-          maxDate={this.MAX_DATE}
-          format="MM/DD/yyyy"
-          value={selectedDate}
-          onChange={this.handleWeekChange}
-          renderDay={this.renderWrappedWeekDay}
-          style={{ width: 280 }}
-          size="small"
-        />
-      </MuiPickersUtilsProvider>
-    );
-  }
+  return(
+    <MuiPickersUtilsProvider utils={MomentUtils} locale="ru">
+      <KeyboardDatePicker
+        label="Отчетный период неделя"
+        inputVariant="outlined"
+        cancelLabel="Отмена"
+        okLabel="Принять"
+        maxDateMessage="Дата должна быть меньше максимальной"
+        minDateMessage="Дата должна быть больше минимальной"
+        invalidDateMessage="Ошибочный формат ввода"
+        minDate={MIN_DATE}
+        maxDate={MAX_DATE}
+        format="MM/DD/yyyy"
+        value={selectedDate}
+        onChange={handleWeekChange}
+        renderDay={renderWrappedWeekDay}
+        style={{ width: 280 }}
+        size="small"
+      />
+    </MuiPickersUtilsProvider>
+  )
 }
 
 const styles = createStyles(theme => ({

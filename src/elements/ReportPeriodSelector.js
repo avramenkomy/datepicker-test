@@ -4,7 +4,7 @@ import 'moment/locale/ru';
 import { makeStyles } from '@material-ui/core/styles';
 
 import DayPicker from './DayPicker';
-import WeekPicker from './WeekPicker';
+import WeekPicker from './NewWeekPicker';
 import MonthPicker from './MonthPicker';
 import YearPicker from './YearPicker';
 import QuarterPicker from './QuarterPicker';
