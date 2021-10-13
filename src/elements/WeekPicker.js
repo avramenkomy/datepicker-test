@@ -55,18 +55,18 @@ class WeekPicker extends Component {
     const { selectedDate } = this.state;
 
     return (
-        <MuiPickersUtilsProvider utils={MomentUtils} locale="ru">
-            <KeyboardDatePicker
-                label="Отчетный период неделя"
-                inputVariant="outlined"
-                format="MM/DD/yyyy"
-                value={selectedDate}
-                onChange={this.handleWeekChange}
-                renderDay={this.renderWrappedWeekDay}
-                style={{ width: 280 }}
-                size="small"
-            />
-        </MuiPickersUtilsProvider>
+      <MuiPickersUtilsProvider utils={MomentUtils} locale="ru">
+        <KeyboardDatePicker
+          label="Отчетный период неделя"
+          inputVariant="outlined"
+          format="MM/DD/yyyy"
+          value={selectedDate}
+          onChange={this.handleWeekChange}
+          renderDay={this.renderWrappedWeekDay}
+          style={{ width: 280 }}
+          size="small"
+        />
+      </MuiPickersUtilsProvider>
     );
   }
 }
