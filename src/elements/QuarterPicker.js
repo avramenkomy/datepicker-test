@@ -42,100 +42,100 @@ const quarterList = [
 
 
 function QuarterPicker() {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
-    const date = new Date();
-    const initYear = date.getFullYear();
-    const [year, setYear] = useState(initYear);
-    const [cloneYear, setCloneYear] = useState(initYear);
+  const date = new Date();
+  const initYear = date.getFullYear();
+  const [year, setYear] = useState(initYear);
+  const [cloneYear, setCloneYear] = useState(initYear);
 
-    const [reportPeriod, setReportPeriod] = useState(quarterList[0]);
-    const [cloneReportPeriod, setCloneReportPeriod] = useState(reportPeriod);    
+  const [reportPeriod, setReportPeriod] = useState(quarterList[0]);
+  const [cloneReportPeriod, setCloneReportPeriod] = useState(reportPeriod);    
 
-    const handleOpenModal = () => {
-        setOpenModal(true);
-    };
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
 
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
-    const increment = () => {
-        setCloneYear(cloneYear + 1);
-    };
+  const increment = () => {
+    setCloneYear(cloneYear + 1);
+  };
 
-    const decrement = () => {
-        setCloneYear(cloneYear - 1);
-    };
+  const decrement = () => {
+    setCloneYear(cloneYear - 1);
+  };
 
-    const handleSetReportPeriod = (period, year) => {
-        setYear(year);
-        setReportPeriod(period);
-        setOpenModal(false);
-    };
+  const handleSetReportPeriod = (period, year) => {
+    setYear(year);
+    setReportPeriod(period);
+    setOpenModal(false);
+  };
 
-    return (
-        <React.Fragment>
-            <Dialog open={openModal} onClose={handleCloseModal}>
-                <div className={classes.dialog_root}>
-                    <DialogTitle className={classes.dialog_title}>
-                        <Grid container direction="row" alignContent="center" alignItems="center" justifyContent="center">
-                            <Grid item xs={2}>
-                                <IconButton onClick={decrement}><ArrowBackIosIcon style={{ color: "#FFF" }} size="small"/></IconButton>
-                            </Grid>
-                            <Grid container item xs={8} justifyContent="center">{cloneYear}</Grid>
-                            <Grid item xs={2}>
-                                <IconButton onClick={increment}><ArrowForwardIosIcon style={{ color: "#FFF" }} color="action" size="small"/></IconButton>
-                            </Grid>
-                        </Grid>                        
-                    </DialogTitle>
-                    <DialogContent className={classes.dialog_content} dividers>
-                        <Grid container direction="column" alignItems="center" spacing={1}>
-                            {quarterList.map((item) => {
-                                return (
-                                    <Grid item xs={12} key={item.id}>
-                                        <Button style={{ width: "200px" }} variant="outlined" onClick={() => setCloneReportPeriod(item)}>{item.quarterName}</Button>
-                                    </Grid>
-                                )
-                            })}
-                        </Grid>
-                    </DialogContent>
-                    <DialogActions className={classes.dialog_content}>
-                        <Grid container direction="row">
-                            <Grid item xs={4}></Grid>
-                            <Grid item xs={4}>
-                                <Button onClick={handleCloseModal}>Отмена</Button>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Button onClick={() => handleSetReportPeriod(cloneReportPeriod, cloneYear)}>Принять</Button>
-                            </Grid>
-                        </Grid>
-                    </DialogActions>
-                </div>            
-            </Dialog>
+  return (
+    <React.Fragment>
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <div className={classes.dialog_root}>
+          <DialogTitle className={classes.dialog_title}>
+            <Grid container direction="row" alignContent="center" alignItems="center" justifyContent="center">
+              <Grid item xs={2}>
+                <IconButton onClick={decrement}><ArrowBackIosIcon style={{ color: "#FFF" }} size="small"/></IconButton>
+              </Grid>
+              <Grid container item xs={8} justifyContent="center">{cloneYear}</Grid>
+              <Grid item xs={2}>
+                <IconButton onClick={increment}><ArrowForwardIosIcon style={{ color: "#FFF" }} color="action" size="small"/></IconButton>
+              </Grid>
+            </Grid>                        
+          </DialogTitle>
+          <DialogContent className={classes.dialog_content} dividers>
+            <Grid container direction="column" alignItems="center" spacing={1}>
+              {quarterList.map((item) => {
+                return (
+                  <Grid item xs={12} key={item.id}>
+                    <Button style={{ width: "200px" }} variant="outlined" onClick={() => setCloneReportPeriod(item)}>{item.quarterName}</Button>
+                  </Grid>
+                )
+              })}
+            </Grid>
+          </DialogContent>
+          <DialogActions className={classes.dialog_content}>
+            <Grid container direction="row">
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <Button onClick={handleCloseModal}>Отмена</Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button onClick={() => handleSetReportPeriod(cloneReportPeriod, cloneYear)}>Принять</Button>
+              </Grid>
+            </Grid>
+          </DialogActions>
+        </div>            
+      </Dialog>
 
-            <TextField
-                variant="outlined"
-                label="Отчетный период квартал"
-                style={{ width: 280 }}
-                size="small"
-                onClick={handleOpenModal}
-                value={`${reportPeriod.quarterName} ${year}`}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton>
-                                <EventIcon color="action" size="small" />
-                            </IconButton>              
-                        </InputAdornment>
-                    ),
-                    readOnly: true,         
-                }}
-            />
-      </React.Fragment>
-    )
+      <TextField
+        variant="outlined"
+        label="Отчетный период квартал"
+        style={{ width: 280 }}
+        size="small"
+        onClick={handleOpenModal}
+        value={`${reportPeriod.quarterName} ${year}`}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton>
+                <EventIcon color="action" size="small" />
+              </IconButton>
+            </InputAdornment>
+          ),
+          readOnly: true,
+        }}
+      />
+    </React.Fragment>
+  )
 }
 
 export default QuarterPicker;

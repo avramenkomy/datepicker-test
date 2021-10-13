@@ -6,11 +6,11 @@ import { Grid } from '@material-ui/core';
 import ReportPeriodSelector from '../elements/ReportPeriodSelector';
 
 const reportPeriods = [
-    {id: 4, type: 'day', name: 'Сутки'},
-    {id: 3, type: 'week', name: 'Неделя'},
-    {id: 2, type: 'month', name: 'Месяц'},
-    {id: 5, type: 'quarter', name: 'Квартал'},
-    {id: 1, type: 'year', name: 'Год'},
+  {id: 4, type: 'day', name: 'Сутки'},
+  {id: 3, type: 'week', name: 'Неделя'},
+  {id: 2, type: 'month', name: 'Месяц'},
+  {id: 5, type: 'quarter', name: 'Квартал'},
+  {id: 1, type: 'year', name: 'Год'},
 ];
 
 function ReportPeriod() {
