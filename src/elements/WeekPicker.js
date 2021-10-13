@@ -13,6 +13,9 @@ class WeekPicker extends Component {
     selectedDate: new Date(),
   };
 
+  MAX_DATE = new Date('3000-01-01');
+  MIN_DATE = new Date('1970-01-01');
+
   handleWeekChange = date => {
     this.setState({ selectedDate: moment(date).startOf('isoWeek') });
   };
@@ -59,6 +62,13 @@ class WeekPicker extends Component {
         <KeyboardDatePicker
           label="Отчетный период неделя"
           inputVariant="outlined"
+          cancelLabel="Отмена"
+          okLabel="Принять"
+          maxDateMessage="Дата должна быть меньше максимальной"
+          minDateMessage="Дата должна быть больше минимальной"
+          invalidDateMessage="Ошибочный формат ввода"
+          minDate={this.MIN_DATE}
+          maxDate={this.MAX_DATE}
           format="MM/DD/yyyy"
           value={selectedDate}
           onChange={this.handleWeekChange}
