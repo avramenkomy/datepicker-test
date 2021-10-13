@@ -1,71 +1,45 @@
-import React, { useState } from 'react';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import moment from "moment"
-import MomentUtils from '@date-io/moment';
-import "moment/locale/ru";
+import React  from 'react';
+import moment from 'moment';
+import 'moment/locale/ru';
+import { makeStyles } from '@material-ui/core/styles';
+
+import DayPicker from './DayPicker';
 import WeekPicker from './WeekPicker';
-import QuarterPicker from './QuarterPicker'
+import MonthPicker from './MonthPicker';
+import YearPicker from './YearPicker';
+import QuarterPicker from './QuarterPicker';
   
 moment.locale("ru");
 
-function ReportPeriodSelector({type}) {
-
-  const initDate = new Date();
-
-  const [date, setDate] = useState(initDate);
-
-  const MAX_DATE = new Date('3000-01-01');
-  const MIN_DATE = new Date('1970-01-01');
-
-  const defaultParams = {
-    inputVariant: "outlined",
-    margin: "normal",
-    cancelLabel: "Отмена",
-    okLabel: "Принять",
-    maxDateMessage: "Дата должна быть меньше максимальной",
-    minDateMessage: "Дата должна быть больше минимальной",
-    invalidDateMessage: "Ошибочный формат ввода",
-    minDate: MIN_DATE,
-    maxDate: MAX_DATE,
-    value: date,
+const useStyles = makeStyles((theme) => ({
+  date_field: {
+    width: '100%',
+    height: 20,
+    marginTop: 0,
+    marginBottom: 0,
+    '& .MuiInputBase-input': {
+      padding: "10px 5px",
+    },
   }
+}));
+
+function ReportPeriodSelector({type}) {
+  const classes = useStyles();
+
+  const dayPicker = type === 'day' ? <DayPicker className={classes.date_field} /> : null;
+  const weekPicker = type === 'week' ? <WeekPicker className={classes.date_field} /> : null;
+  const monthPicker = type === 'month' ? <MonthPicker className={classes.date_field} /> : null;
+  const quarterPicker = type === 'quarter' ? <QuarterPicker className={classes.date_field} /> : null;
+  const yearPicker = type === 'year' ? <YearPicker className={classes.date_field} /> : null;
 
   return (
-    <MuiPickersUtilsProvider utils={MomentUtils} locale="ru">
-      {/* селектор с выбором даты */}
-      <KeyboardDatePicker
-        {...defaultParams}
-        label="Отчетный период сутки"
-        format="MM/DD/yyyy"
-        onChange={(value) => setDate(value)}
-      />
-
-      {/* селектор с выбором недели */}
-      <WeekPicker />
-
-
-      {/* селектор с выбором месяца */}
-      <KeyboardDatePicker
-        {...defaultParams}
-        label="Отчетный период месяц"
-        views={["month"]}
-        format="MM/yyyy"
-        onChange={(value) => setDate(value)}
-      />
-
-      {/* селектор с выбором квартала */}
-      <QuarterPicker />
-
-      {/* селектор с выбором года */}
-      <KeyboardDatePicker
-        {...defaultParams}
-        label="Отчетный период год"
-        views={["year"]}
-      />
-    </MuiPickersUtilsProvider>
+    <React.Fragment>
+      {dayPicker}
+      {weekPicker}
+      {monthPicker}
+      {quarterPicker}
+      {yearPicker}
+    </React.Fragment>
   );
 }
 
