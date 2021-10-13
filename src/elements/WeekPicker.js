@@ -1,11 +1,12 @@
-import clsx from "clsx";
-import React, { Component } from "react";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import { createStyles } from "@material-ui/styles";
-import moment from "moment"
+import React, { Component } from 'react';
+import clsx from 'clsx';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import { createStyles } from '@material-ui/styles';
+import moment from 'moment';
+import MomentUtils from '@date-io/moment';
 import "moment/locale/ru";
 
-import { IconButton, withStyles } from "@material-ui/core";
+import { IconButton, withStyles } from '@material-ui/core';
 
 class WeekPicker extends Component {
   state = {
@@ -17,26 +18,17 @@ class WeekPicker extends Component {
   };
 
   renderWrappedWeekDay = (date, selectedDate, dayInCurrentMonth) => {
-
     const { classes } = this.props;
     let dateClone = date;
     let selectedDateClone = selectedDate;
+    
 
     const start = moment(selectedDateClone).startOf('isoWeek');
-    const end = moment(selectedDateClone).endOf('isoWeek');
+    const end = moment(selectedDateClone).endOf('week');
 
-    const isLastDay = moment(dateClone).isSame(end);
     const dayIsBetween = moment(dateClone).isBetween(start, end);
     const isFirstDay = moment(dateClone).isSame(start);
-
-    const selectEnd = moment(selectedDateClone).endOf('isoWeek');
-    const dateEnd = moment(dateClone).endOf('isoWeek');
-    console.log('selectEnd', selectEnd);
-    console.log('dateEnd', dateEnd);
-
-    console.log('selectEnd', selectEnd);
-    console.log('dateEnd', dateEnd);
-    
+    const isLastDay = moment(dateClone).isSame(end);
 
     const wrapperClassName = clsx({
       [classes.highlight]: dayIsBetween,
@@ -63,15 +55,18 @@ class WeekPicker extends Component {
     const { selectedDate } = this.state;
 
     return (
-      <KeyboardDatePicker
-        label="Отчетный период неделя"
-        inputVariant="outlined"
-        format="MM/DD/yyyy"
-        value={selectedDate}
-        onChange={this.handleWeekChange}
-        renderDay={this.renderWrappedWeekDay}
-        margin="normal"
-      />
+        <MuiPickersUtilsProvider utils={MomentUtils} locale="ru">
+            <KeyboardDatePicker
+                label="Отчетный период неделя"
+                inputVariant="outlined"
+                format="MM/DD/yyyy"
+                value={selectedDate}
+                onChange={this.handleWeekChange}
+                renderDay={this.renderWrappedWeekDay}
+                style={{ width: 280 }}
+                size="small"
+            />
+        </MuiPickersUtilsProvider>
     );
   }
 }
@@ -108,15 +103,13 @@ const styles = createStyles(theme => ({
   },
   firstHighlight: {
     extend: "highlight",
-    background: theme.palette.primary.main,
     color: theme.palette.common.white,
+    background: theme.palette.primary.main,
     borderTopLeftRadius: "50%",
     borderBottomLeftRadius: "50%",
   },
   endHighlight: {
     extend: "highlight",
-    background: theme.palette.primary.main,
-    color: theme.palette.common.white,
     borderTopRightRadius: "50%",
     borderBottomRightRadius: "50%",
   },
