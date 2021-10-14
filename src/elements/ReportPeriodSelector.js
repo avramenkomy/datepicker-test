@@ -7,7 +7,8 @@ import DayPicker from './DayPicker';
 import WeekPicker from './WeekPicker';
 import MonthPicker from './MonthPicker';
 import YearPicker from './YearPicker';
-import QuarterPicker from './QuarterPicker';
+// import QuarterPicker from './QuarterPicker';
+import NewQuarterPicker from './NewQuarterPicker';
   
 moment.locale("ru");
 
@@ -29,7 +30,7 @@ function ReportPeriodSelector({type}) {
   const dayPicker = type === 'day' ? <DayPicker className={classes.date_field} /> : null;
   const weekPicker = type === 'week' ? <WeekPicker className={classes.date_field} /> : null;
   const monthPicker = type === 'month' ? <MonthPicker className={classes.date_field} /> : null;
-  const quarterPicker = type === 'quarter' ? <QuarterPicker className={classes.date_field} /> : null;
+  const quarterPicker = type === 'quarter' ? <NewQuarterPicker className={classes.date_field} /> : null;
   const yearPicker = type === 'year' ? <YearPicker className={classes.date_field} /> : null;
 
   return (

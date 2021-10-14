@@ -3,7 +3,7 @@ import { Autocomplete } from '@material-ui/lab';
 import { Grid, TextField } from '@mui/material';
 
 import ReportPeriodSelector from '../elements/ReportPeriodSelector';
-import NewWeekPicker from '../elements/NewWeekPicker';
+// import NewWeekPicker from '../elements/NewWeekPicker';
 
 const reportPeriods = [
   {id: 4, type: 'day', name: 'Сутки'},
@@ -47,9 +47,9 @@ function ReportPeriod() {
         </Grid>
         <Grid item xs={4}></Grid>
       </Grid>
-      <Grid item>
+      {/* <Grid item>
         <NewWeekPicker />
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 }
