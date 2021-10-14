@@ -1,14 +1,42 @@
 import React, { useState } from 'react';
-import { TextField, Button, IconButton, InputAdornment,
+import { Grid, TextField, Button, IconButton, InputAdornment,
   Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  root: {
+    '& .css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
+      minWidth: '310px',
+      maxHeight: '100%',
+    },
+    '& .css-bdhsul-MuiTypography-root-MuiDialogTitle-root': {
+      background: '#00264D',
+      color: 'rgba(255, 255, 255, 0.85)',
+    },
+    '& .css-ueukts-MuiButtonBase-root-MuiToggleButton-root.Mui-selected': {
+      background: '#00264D',
+      color: 'rgba(255, 255, 255, 0.85)',
+    },
+    '& .css-ueukts-MuiButtonBase-root-MuiToggleButton-root.Mui-selected:hover': {
+      background: '#00264D'
+    }
+  },
+  dialog_root: {
+    minWidth: '310px',
+    maxHeight: '100%',
+  }
+
+});
 
 
 function QuarterPicker() {
+  const classes = useStyles();
+
   const quarterList = [
     {id: 1, quarterName: '1 кв. Янв-Фев-Мар', start: '01-01', end: '03-31' },
     {id: 2, quarterName: '2 кв. Апр-Май-Июнь', start: '04-01', end: '06-30' },
@@ -50,12 +78,20 @@ function QuarterPicker() {
 
   return (
     <React.Fragment>
-      <Dialog open={openSelectQuarter} onClose={() => setOpenSelectQuarter(false)}>
-
+      <Dialog className={classes.root} open={openSelectQuarter} onClose={() => setOpenSelectQuarter(false)}>
+        <div>
         <DialogTitle>
-          <IconButton onClick={decrement}><ArrowBackIosIcon/></IconButton>
-          {cloneYear}
-          <IconButton onClick={increment}><ArrowForwardIosIcon/></IconButton>
+          <Grid container direction="row" alignItems="center">
+            <Grid item xs={2}>
+              <IconButton onClick={decrement}><ArrowBackIosIcon/></IconButton>
+            </Grid>
+            <Grid item xs={8} textAlign="center">
+              {cloneYear}
+            </Grid>
+            <Grid item xs={2}>
+              <IconButton onClick={increment}><ArrowForwardIosIcon/></IconButton>
+            </Grid>
+          </Grid>
         </DialogTitle>
 
         <DialogContent dividers>
@@ -79,7 +115,7 @@ function QuarterPicker() {
           <Button onClick={() => setOpenSelectQuarter(false)}>Отмена</Button>
           <Button onClick={handleSetReportPeriod}>Принять</Button>
         </DialogActions>
-
+        </div>
       </Dialog>
 
       <TextField
