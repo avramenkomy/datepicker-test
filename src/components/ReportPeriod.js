@@ -14,8 +14,8 @@ const reportPeriods = [
 
 function ReportPeriod() {
 
-  const [reportPeriodValue, setReportPeriodValue] = useState(reportPeriods[0]);
-  const [type, setType] = useState(reportPeriods[0].type);
+  const [reportPeriodValue, setReportPeriodValue] = useState(reportPeriods[1]);
+  const [type, setType] = useState(reportPeriods[1].type);
 
   return (
     <Grid container direction="column" spacing={5}>

@@ -14,6 +14,9 @@ const useStyles = makeStyles({
       marginLeft: 'auto',
       marginRight: 'auto',
     },
+    '& .MuiDialogContent-dividers': {
+      minHeight: '305px',
+    },
     // Стили для размера диалога
     '& .css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
       minWidth: '310px',
@@ -105,7 +108,7 @@ function QuarterPicker() {
         </DialogTitle>
 
         <DialogContent dividers>
-          <Grid container xs={12}>
+          <Grid container>
             <ToggleButtonGroup
               orientation="vertical"
               value={ReportPeriodID}
