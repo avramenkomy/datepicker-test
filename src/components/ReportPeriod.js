@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { TextField } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
-import { Grid } from '@material-ui/core';
+import { Grid, TextField } from '@mui/material';
 
 import ReportPeriodSelector from '../elements/ReportPeriodSelector';
+import NewWeekPicker from '../elements/NewWeekPicker';
 
 const reportPeriods = [
   {id: 4, type: 'day', name: 'Сутки'},
@@ -19,24 +19,37 @@ function ReportPeriod() {
   const [type, setType] = useState(reportPeriods[0].type);
 
   return (
-    <Grid container direction='row' spacing={6} style={{marginLeft: '20px'}} alignItems="center">
-      <Grid item xs={4}>
-      <Autocomplete
-        disableClearable        
-        onChange={(event, newValue) => {
-          setReportPeriodValue(newValue);
-          setType(newValue.type);
-        }}
-        options={reportPeriods}
-        value={reportPeriodValue}
-        getOptionLabel={option => option.name}
-        style={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Тип отчетного периода" variant="outlined" />}
-      />
+    <Grid container direction="column" spacing={5}>
+      <Grid container item xs={12}>
+        <Grid item xs={3}>
+          <Autocomplete
+            disableClearable        
+            onChange={(event, newValue) => {
+              setReportPeriodValue(newValue);
+              setType(newValue.type);
+            }}
+            options={reportPeriods}
+            value={reportPeriodValue}
+            getOptionLabel={option => option.name}
+            size="small"
+            style={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Тип отчетного периода"
+                variant="outlined"              
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <ReportPeriodSelector type={type} />
+        </Grid>
+        <Grid item xs={4}></Grid>
       </Grid>
-      <Grid item xs={4}>
-        <ReportPeriodSelector type={type} />
-      </Grid>     
+      <Grid item>
+        <NewWeekPicker />
+      </Grid>
     </Grid>
   )
 }
