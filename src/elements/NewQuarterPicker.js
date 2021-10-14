@@ -10,6 +10,10 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   root: {
+    '& .MuiDialog-container': {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
     // Стили для размера диалога
     '& .css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
       minWidth: '310px',
