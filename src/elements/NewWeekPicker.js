@@ -11,6 +11,12 @@ import startOfWeek from 'date-fns/startOfISOWeek';
 import endOfWeek from 'date-fns/endOfISOWeek';
 import isWithinInterval from 'date-fns/isWithinInterval';
 
+// import moment from 'moment';
+// import MomentUtils from '@date-io/moment';
+// import 'moment/locale/ru';
+// import AdapterDateMoment from '@mui/lab/AdapterMoment';
+// import 'moment/locale/ru';
+
 const CustomPickersDay = styled(PickersDay, {
   shouldForwardProp: (prop) =>
     prop !== 'dayIsBetween' && prop !== 'isFirstDay' && prop !== 'isLastDay',
@@ -54,6 +60,13 @@ export default function WeekPicker() {
     const isFirstDay = isSameDay(date, start);
     const isLastDay = isSameDay(date, end);
 
+    // const start = moment(value).startOf('isoWeek');
+    // const end = moment(value).endOf('isoWeek');
+
+    // const dayIsBetween = moment(date).isBetween(start, end);
+    // const isFirstDay = moment(date).isSame(start, 'day');
+    // const isLastDay = moment(date).isSame(end, 'day');
+
     return (
       <CustomPickersDay
         {...pickersDayProps}
@@ -66,10 +79,12 @@ export default function WeekPicker() {
   };
 
   return (
+    // <LocalizationProvider dateAdapter={AdapterDateMoment} locale="ru">
     <LocalizationProvider dateAdapter={AdapterDateFns} locale={ru}>
       <DatePicker
         label="Отчетный период неделя"
         value={startOfWeek(value)}
+        // value={moment(value).startOf('isoWeek')}
         minDate={MIN_DATE}
         maxDate={MAX_DATE}
         cancelText="Отмена"
@@ -79,7 +94,7 @@ export default function WeekPicker() {
         }}
         renderDay={renderWeekPickerDay}
         renderInput={(params) => <TextField style={{ width: 280 }} size="small" {...params} />}
-        inputFormat="MM/dd/y"        
+        inputFormat="MM/dd/yyyy"        
       />
     </LocalizationProvider>
   );
