@@ -1,17 +1,14 @@
 import React  from 'react';
-import moment from 'moment';
-import 'moment/locale/ru';
 import { makeStyles } from '@material-ui/core/styles';
 
-import DayPicker from './DayPicker';
+// import DayPicker from './DayPicker';
 // import WeekPicker from './WeekPicker';
 import MonthPicker from './MonthPicker';
 import YearPicker from './YearPicker';
 // import QuarterPicker from './QuarterPicker';
 import NewQuarterPicker from './NewQuarterPicker';
 import WeekPicker from './NewWeekPicker';
-  
-moment.locale("ru");
+import DayPicker from './NewDayPicker';
 
 const useStyles = makeStyles((theme) => ({
   date_field: {
