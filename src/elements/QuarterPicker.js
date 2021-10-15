@@ -1,119 +1,133 @@
 import React, { useState } from 'react';
-import { Grid, TextField, IconButton, InputAdornment, Button } from '@material-ui/core';
-import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import EventIcon from '@material-ui/icons/Event';
-import "moment/locale/ru";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { Grid, TextField, Button, IconButton, InputAdornment,
+  Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import EventIcon from '@mui/icons-material/Event';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      '& .MuiTextField-root': {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-      },
+const useStyles = makeStyles({
+  root: {
+    '& .MuiDialog-container': {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    // Стили для размера диалога
+    '& .css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
       minWidth: '310px',
       maxHeight: '100%',
     },
-    text_field: {
-      width: '100%'
+    // Стили для секции заголовка диалога
+    '& .css-bdhsul-MuiTypography-root-MuiDialogTitle-root': {
+      background: '#00264D',
+      color: 'rgba(255, 255, 255, 0.85)',
     },
-    dialog_root: {
-        minWidth: '310px',
-        maxHeight: '100%',
+    // Стили для выбранного квартала в секции контента диалога
+    '& .css-17ndd9v-MuiButtonBase-root-MuiToggleButton-root.Mui-selected': {
+      background: '#00264D',
+      color: 'rgba(255, 255, 255, 0.85)',
     },
-    dialog_title: {
-        background: '#3F51B5',
-        color: '#FFF'
+    '& .css-17ndd9v-MuiButtonBase-root-MuiToggleButton-root.Mui-selected:hover': {
+      background: '#00264D'
     },
-    dialog_content: {
-        background: '#FFF',
-        color: '#3F51B5'
-    },   
-}));
-
-const quarterList = [
-    {id: 1, quarterName: '1 кв. Янв-Фев-Мар', start: '01-01', end: '03-31' },
-    {id: 2, quarterName: '2 кв. Апр-Май-Июнь', start: '04-01', end: '06-30' },
-    {id: 3, quarterName: '3 кв. Июль-Авг-Сен', start: '07-31', end: '09-30' },
-    {id: 4, quarterName: '4 кв. Окт-Ноя-Дек', start: '10-01', end: '12-31' },
-];
+    '& css-1e6y48t-MuiButtonBase-root-MuiButton-root': {
+      color: '#00264D'
+    },
+  },
+  dialog_actions_button: {
+    color: '#00264D'
+  },
+  arrow_btn: {
+    color: 'rgba(255, 255, 255, 0.85)'
+  },
+});
 
 
 function QuarterPicker() {
   const classes = useStyles();
 
-  const [openModal, setOpenModal] = useState(false);
+  const quarterList = [
+    {id: 1, quarterName: '1 кв. Янв-Фев-Мар', start: '01-01', end: '03-31' },
+    {id: 2, quarterName: '2 кв. Апр-Май-Июнь', start: '04-01', end: '06-30' },
+    {id: 3, quarterName: '3 кв. Июль-Авг-Сен', start: '07-31', end: '09-30' },
+    {id: 4, quarterName: '4 кв. Окт-Ноя-Дек', start: '10-01', end: '12-31' },
+  ];
 
-  const date = new Date();
-  const initYear = date.getFullYear();
-  const [year, setYear] = useState(initYear);
-  const [cloneYear, setCloneYear] = useState(initYear);
-
+  const [openSelectQuarter, setOpenSelectQuarter] = useState(false);
   const [reportPeriod, setReportPeriod] = useState(quarterList[0]);
-  const [cloneReportPeriod, setCloneReportPeriod] = useState(reportPeriod);    
+  const [ReportPeriodID, setReportPeriodID] = useState(reportPeriod.id);
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
+  const initYear = (new Date()).getFullYear();
+  const [year, setYear] = useState(initYear);
+  const [cloneYear, setCloneYear] = useState(year);
+
+  // Открытие диалогового окна с селектором кварталов
+  const handleOpenSelectQuarter = () => {
+    setOpenSelectQuarter(true);
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
+  // Функция установки значения года и квартала в state
+  const handleSetReportPeriod = () => {
+    setYear(cloneYear);
+    setReportPeriod(quarterList.filter(item => item.id === ReportPeriodID)[0]);
+    setOpenSelectQuarter(false);
+  }
+
+  // Обработчик кнопок выбора периода, передается ID квартала
+  const handleSetReportPeriodID = (event, next) => {    
+    if (next !== null) {
+      setReportPeriodID(next);
+    }
   };
 
-  const increment = () => {
-    setCloneYear(cloneYear + 1);
-  };
+  // Функции увеличивают или уменьшают значении копии года, которую потом передадим в setYear
+  const increment = () => { setCloneYear(cloneYear + 1) };
+  const decrement = () => { setCloneYear(cloneYear - 1) };
 
-  const decrement = () => {
-    setCloneYear(cloneYear - 1);
-  };
-
-  const handleSetReportPeriod = (period, year) => {
-    setYear(year);
-    setReportPeriod(period);
-    setOpenModal(false);
-  };
 
   return (
     <React.Fragment>
-      <Dialog open={openModal} onClose={handleCloseModal}>
-        <div className={classes.dialog_root}>
-          <DialogTitle className={classes.dialog_title}>
-            <Grid container direction="row" alignContent="center" alignItems="center" justifyContent="center">
-              <Grid item xs={2}>
-                <IconButton onClick={decrement}><ArrowBackIosIcon style={{ color: "#FFF" }} size="small"/></IconButton>
-              </Grid>
-              <Grid container item xs={8} justifyContent="center">{cloneYear}</Grid>
-              <Grid item xs={2}>
-                <IconButton onClick={increment}><ArrowForwardIosIcon style={{ color: "#FFF" }} color="action" size="small"/></IconButton>
-              </Grid>
-            </Grid>                        
-          </DialogTitle>
-          <DialogContent className={classes.dialog_content} dividers>
-            <Grid container direction="column" alignItems="center" spacing={1}>
-              {quarterList.map((item) => {
-                return (
-                  <Grid item xs={12} key={item.id}>
-                    <Button style={{ width: "200px" }} variant="outlined" onClick={() => setCloneReportPeriod(item)}>{item.quarterName}</Button>
-                  </Grid>
-                )
-              })}
+      <Dialog className={classes.root} open={openSelectQuarter} onClose={() => setOpenSelectQuarter(false)}>
+        <DialogTitle>
+          <Grid container direction="row" alignItems="center">
+            <Grid item xs={2}>
+              <IconButton className={classes.arrow_btn} color="inherit" onClick={decrement}><ArrowBackIosIcon/></IconButton>
             </Grid>
-          </DialogContent>
-          <DialogActions className={classes.dialog_content}>
-            <Grid container direction="row">
-              <Grid item xs={4}></Grid>
-              <Grid item xs={4}>
-                <Button onClick={handleCloseModal}>Отмена</Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button onClick={() => handleSetReportPeriod(cloneReportPeriod, cloneYear)}>Принять</Button>
-              </Grid>
+            <Grid item xs={8} textAlign="center">
+              {cloneYear}
             </Grid>
-          </DialogActions>
-        </div>            
+            <Grid item xs={2}>
+              <IconButton className={classes.arrow_btn} color="inherit" onClick={increment}><ArrowForwardIosIcon/></IconButton>
+            </Grid>
+          </Grid>
+        </DialogTitle>
+
+        <DialogContent dividers>
+          <Grid container>
+            <ToggleButtonGroup
+              orientation="vertical"
+              value={ReportPeriodID}
+              fullWidth
+              exclusive
+              onChange={handleSetReportPeriodID}
+            >
+              {
+                quarterList.map(item => (
+                  <ToggleButton key={item.id} value={item.id}>
+                    {item.quarterName}
+                  </ToggleButton>
+                ))
+              }
+            </ToggleButtonGroup>
+          </Grid>
+        </DialogContent>
+
+        <DialogActions>
+          <Button color="inherit" onClick={() => setOpenSelectQuarter(false)}>Отмена</Button>
+          <Button color="inherit" onClick={handleSetReportPeriod}>Принять</Button>
+        </DialogActions>
       </Dialog>
 
       <TextField
@@ -121,7 +135,7 @@ function QuarterPicker() {
         label="Отчетный период квартал"
         style={{ width: 280 }}
         size="small"
-        onClick={handleOpenModal}
+        onClick={handleOpenSelectQuarter}
         value={`${reportPeriod.quarterName} ${year}`}
         InputProps={{
           endAdornment: (

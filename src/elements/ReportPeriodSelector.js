@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 // import WeekPicker from './WeekPicker';
 // import MonthPicker from './MonthPicker';
 // import YearPicker from './YearPicker';
-// import QuarterPicker from './QuarterPicker';
-import NewQuarterPicker from './NewQuarterPicker';
+import QuarterPicker from './QuarterPicker';
+// import QuarterPicker from './NewQuarterPicker';
 import WeekPicker from './NewWeekPicker';
 import DayPicker from './NewDayPicker';
 import MonthPicker from './NewMonthPicker';
@@ -30,7 +30,7 @@ function ReportPeriodSelector({type}) {
   const dayPicker = type === 'day' ? <DayPicker className={classes.date_field} /> : null;
   const weekPicker = type === 'week' ? <WeekPicker className={classes.date_field} /> : null;
   const monthPicker = type === 'month' ? <MonthPicker className={classes.date_field} /> : null;
-  const quarterPicker = type === 'quarter' ? <NewQuarterPicker className={classes.date_field} /> : null;
+  const quarterPicker = type === 'quarter' ? <QuarterPicker className={classes.date_field} /> : null;
   const yearPicker = type === 'year' ? <YearPicker className={classes.date_field} /> : null;
 
   return (
