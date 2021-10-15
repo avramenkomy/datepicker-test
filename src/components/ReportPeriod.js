@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Autocomplete } from '@material-ui/lab';
-import { Grid, TextField } from '@mui/material';
+import { Grid, TextField, Autocomplete } from '@mui/material';
 
 import ReportPeriodSelector from '../elements/ReportPeriodSelector';
 
@@ -31,7 +30,7 @@ function ReportPeriod() {
             value={reportPeriodValue}
             getOptionLabel={option => option.name}
             size="small"
-            style={{ width: 300 }}
+            style={{ width: 280 }}
             renderInput={(params) => (
               <TextField
                 {...params}
