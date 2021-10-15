@@ -16,6 +16,7 @@
     "@material-ui/pickers": "^3.3.10",
     "@material-ui/styles": "^4.11.4",
     "@mui/icons-material": "^5.0.3",
+    "@mui/lab": "^5.0.0-alpha.50",
     "@mui/material": "^5.0.3",
     "@mui/styles": "^5.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
