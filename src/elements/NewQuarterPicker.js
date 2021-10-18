@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Button, IconButton, InputAdornment, Popover } from '@mui/material';
+import { Grid, TextField, Button, IconButton, InputAdornment, Popover, Typography, Popper } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { makeStyles } from '@mui/styles';
+import { styled, createTheme } from '@mui/material/styles';
 
-const useStyles = makeStyles({
-  root: {
-    // Стили для секции заголовка диалога
-    '& .css-bdhsul-MuiTypography-root-MuiDialogTitle-root': {
-      background: '#00264D',
-      color: 'rgba(255, 255, 255, 0.85)',
-    },
+const CustomToggleButton = styled(ToggleButton)(({ theme }) => ({
+  '&.Mui-selected': {
+    background: '#00264d',
+    color: '#fff'
   },
-  actions_button: {
-    color: '#00264D'
+  '&.Mui-selected:hover': {
+    background: '#00264d',
   },
-  arrow_btn: {
-    color: 'rgba(255, 255, 255, 0.85)'
-  },
-});
+}));
+
+const CustomPopover = styled(Popover)(({theme}) => ({
+  minWidth: 280,
+  // '&.css-3bmhjh-MuiPaper-root-MuiPopover-paper': {
+  //   minWidth: '280px'
+  // }
+}));
 
 export default function QuarterPicker() {
-  const classes = useStyles();
 
   const quarterList = [
     {id: 1, quarterName: '1 кв. Янв-Фев-Мар', start: '01-01', end: '03-31' },
@@ -92,7 +92,7 @@ export default function QuarterPicker() {
           readOnly: true,
         }}
       />
-      <Popover
+      <CustomPopover
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -104,13 +104,13 @@ export default function QuarterPicker() {
       >
         <Grid container direction="row" alignItems="center">
           <Grid item xs={3} textAlign="center">
-            <IconButton onClick={decrement}><ArrowBackIosIcon/></IconButton>
+            <IconButton color="primary" onClick={decrement}><ArrowBackIosIcon/></IconButton>
           </Grid>
           <Grid item xs={6} textAlign="center">
-            {cloneYear}
+            <Typography component="span" variant="h6" color="primary">{cloneYear}</Typography>
           </Grid>
           <Grid item xs={3} textAlign="center">
-            <IconButton onClick={increment}><ArrowForwardIosIcon/></IconButton>
+            <IconButton color="primary" onClick={increment}><ArrowForwardIosIcon/></IconButton>
           </Grid>
         </Grid>
 
@@ -124,9 +124,9 @@ export default function QuarterPicker() {
           >
             {
               quarterList.map(item => (
-                <ToggleButton key={item.id} value={item.id}>
+                <CustomToggleButton key={item.id} value={item.id}>
                   {item.quarterName}
-                </ToggleButton>
+                </CustomToggleButton>
               ))
             }
           </ToggleButtonGroup>
@@ -134,13 +134,13 @@ export default function QuarterPicker() {
         
         <Grid container direction="row" alignItems="center" alignContent="center" justifyContent="center">
           <Grid item xs={6} textAlign="center">
-            <Button fullWidth className={classes.actions_button} onClick={handleClose}>Отмена</Button>
+            <Button fullWidth onClick={handleClose}>Отмена</Button>
           </Grid>
           <Grid item xs={6} textAlign="center">
-            <Button fullWidth className={classes.actions_button} onClick={handleSetReportPeriod}>Принять</Button>
+            <Button fullWidth  onClick={handleSetReportPeriod}>Принять</Button>
           </Grid>          
         </Grid>
-      </Popover>
+      </CustomPopover>
     </div>
   );
 }
