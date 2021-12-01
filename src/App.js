@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ReportPeriod from './components/ReportPeriod';
 import RowInput from './components/RowInput';
 import NewRowInput from './components/NewRowInput'
+import SelectWithSearch from './components/select_with_search';
 
 const theme = createTheme({
   palette: {
@@ -24,6 +25,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const props = {
+  label: 'test label',
+  value: null,
+  // apiHandler: jest.fn(),
+  // onChange: jest.fn(),
+  options: ['test 1', 'test 2', 'test 3']
+}
+
 function App() {
   const classes = useStyles();
   
@@ -38,6 +47,9 @@ function App() {
         </Grid>
         <Grid item xs={2}>
           <NewRowInput />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectWithSearch {...props}/>
         </Grid>
       </Grid>
     </ThemeProvider>
