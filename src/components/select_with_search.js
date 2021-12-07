@@ -27,7 +27,6 @@ const StyledAutocomplete = withStyles(() => ({
 
 
 function SelectWithSearch(props) {
-  console.log('props from select', props);
   const { ...rest_props } = props;
 
   let init_options = Array.isArray(props.options) ? props.options : [];
@@ -117,7 +116,7 @@ function SelectWithSearch(props) {
         return options ? options : [];
       }}
       renderInput={(params) => (
-        <TextField {...params} 
+        <TextField {...params}
           label={props.label}
           variant="outlined"
           fullWidth

@@ -6,6 +6,7 @@ import ReportPeriod from './components/ReportPeriod';
 import RowInput from './components/RowInput';
 import NewRowInput from './components/NewRowInput'
 import SelectWithSearch from './components/select_with_search';
+import ComboBox from './components/ComboBox';
 
 const theme = createTheme({
   palette: {
@@ -28,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
 const props = {
   label: 'test label',
   value: null,
-  // apiHandler: jest.fn(),
-  // onChange: jest.fn(),
-  options: ['test 1', 'test 2', 'test 3']
+  // apiHandler: () => { console.log('apiHandler') },
+  onChange: (e) => { console.log('onChange', e.target.value) },
+  options: ['first', 'Second', 'third']
 }
 
 function App() {
@@ -50,6 +51,9 @@ function App() {
         </Grid>
         <Grid item xs={12}>
           <SelectWithSearch {...props}/>
+        </Grid>
+        <Grid item xs={12}>
+          <ComboBox />
         </Grid>
       </Grid>
     </ThemeProvider>
