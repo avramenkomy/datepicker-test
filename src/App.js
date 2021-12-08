@@ -7,6 +7,7 @@ import RowInput from './components/RowInput';
 import NewRowInput from './components/NewRowInput'
 import SelectWithSearch from './components/select_with_search';
 import ComboBox from './components/ComboBox';
+import DatePickerElement from './components/datepicker';
 
 const theme = createTheme({
   palette: {
@@ -53,7 +54,7 @@ function App() {
           <SelectWithSearch {...props}/>
         </Grid>
         <Grid item xs={12}>
-          <ComboBox />
+          <DatePickerElement />
         </Grid>
       </Grid>
     </ThemeProvider>
