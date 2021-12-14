@@ -1,13 +1,13 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ReportPeriod from './components/ReportPeriod';
 import RowInput from './components/RowInput';
-import NewRowInput from './components/NewRowInput'
-import SelectWithSearch from './components/select_with_search';
-import ComboBox from './components/ComboBox';
-import DatePickerElement from './components/datepicker';
+import NewRowInput from './components/NewRowInput';
+import FilterSelect from './components/filter_select';
+import InputBaseWithWait from './components/input_base_with_wait';
+import SiteBackdrop from './components/backdrop';
 
 const theme = createTheme({
   palette: {
@@ -28,18 +28,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const props = {
-  label: 'test label',
-  value: null,
-  // apiHandler: () => { console.log('apiHandler') },
-  onChange: (e) => { console.log('onChange', e.target.value) },
-  options: ['first', 'Second', 'third']
+  filter_type: 'metric',
+  filter_name: 'ORG_UNIT_NAME',
+  label: 'Признак организации',
+  filters_data: {},
+  onChange: (type, value) => {
+    console.log('onChange', type, value)
+  }
 }
+
+const onInput = () => { console.log('onInput') }
 
 function App() {
   const classes = useStyles();
   
   return (
     <ThemeProvider theme={theme}>
+      <SiteBackdrop open_state={true} />
       <Grid container spacing={1} className={classes.root}>
         <Grid item xs={12}>
           <ReportPeriod />
@@ -51,10 +56,10 @@ function App() {
           <NewRowInput />
         </Grid>
         <Grid item xs={12}>
-          <SelectWithSearch {...props}/>
+          <FilterSelect {...props}/>
         </Grid>
         <Grid item xs={12}>
-          <DatePickerElement />
+          <InputBaseWithWait onInput={onInput} placeholder="Поиск" inputProps={{ 'aria-label': 'Поиск' }}/>
         </Grid>
       </Grid>
     </ThemeProvider>
