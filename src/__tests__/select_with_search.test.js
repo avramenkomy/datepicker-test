@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, fireEvent, within, waitFor, screen,
+import { render, fireEvent, screen, waitFor,
     getByRole as globalGetByRole,
-    getByText as globalGetByText, 
 } from '@testing-library/react'
 import { unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
@@ -20,89 +19,143 @@ afterEach(() => {
   container = null;
 });
 
+console.warn = jest.fn();
+
 describe('test renderers component', () => {
 
-    it('render', async () => {
-        await act(async () => {
-            render(
-                <SelectWithSearch
-                    value={null}
-                    label="test label"
-                    apiHandler={() => jest.fn()}
-                    onChange={() => jest.fn()}
-                    options={['test1', 'test2', 'test3']}
-                />, 
-                container);
-        });
-
-        const labelElement = screen.getByLabelText('test label');
-        const inputElement = screen.getByRole('textbox');
-        const clearButton = screen.getByRole('button', { hidden: true, name: '' });
-        const openButton = screen.getByRole('button', { name: 'Open' });
-
-        expect(labelElement).toBeInTheDocument();        
-        expect(inputElement).toBeInTheDocument();
-        expect(clearButton).toBeInTheDocument();
-        expect(openButton).toBeInTheDocument();        
-        
-        await act(async () => {
-            fireEvent.click(openButton)
-        });
-        expect(screen.getByRole('button', { name: 'Закрыть' })).toBeInTheDocument();        
+  it('render', async () => {
+    await act(async () => {
+      render(
+        <SelectWithSearch
+          value={null}
+          label="test label"
+          apiHandler={() => jest.fn()}
+          onChange={() => jest.fn()}
+          options={['test1', 'test2', 'test3']}
+        />, 
+        container
+      );
     });
 
-    it('test render', async () => {
-        const onChangeMock = jest.fn();
-        const apiHandleMock = jest.fn();
-        const { queryByRole, queryByText } = render(
-            <SelectWithSearch
-                value={null}
-                label="test label"
-                apiHandler={apiHandleMock}
-                onChange={onChangeMock}
-                options={['first', 'second', 'third']}
-            />,
-            container
-        );
+    const labelElement = screen.getByLabelText('test label');
+    const inputElement = screen.getByRole('textbox');
+    const clearButton = screen.getByRole('button', { hidden: true, name: '' });
+    const openButton = screen.getByRole('button', { name: 'Open' });
 
-        const rootElement = screen.getByRole('combobox');        
-                
-        const inputElement = globalGetByRole(rootElement, 'textbox');
+    expect(labelElement).toBeInTheDocument();        
+    expect(inputElement).toBeInTheDocument();
+    expect(clearButton).toBeInTheDocument();
+    expect(openButton).toBeInTheDocument();        
+      
+    await act(async () => {
+        fireEvent.click(openButton)
+    });
+    expect(screen.getByRole('button', { name: 'Закрыть' })).toBeInTheDocument();        
+  });
 
-        expect(rootElement).toBeInTheDocument();
-        expect(queryByRole('listbox')).toBeNull();
-        userEvent.click(inputElement);
-        // userEvent.type(inputElement, 'D');
-        // expect(inputElement).toHaveValue('D'); // Это работает
+  it('test render', async () => {
+    const onChangeMock = jest.fn();
+    const apiHandleMock = jest.fn();
+    const { queryByRole, queryByText } = render(
+      <SelectWithSearch
+        value={null}
+        label="test label"
+        apiHandler={apiHandleMock}
+        onChange={onChangeMock}
+        options={['first', 'second', 'third']}
+      />,
+      container
+    );
 
-        const listBox = queryByRole('listbox');
-        expect(listBox).toBeDefined();
+    const rootElement = screen.getByRole('combobox');        
+            
+    const inputElement = globalGetByRole(rootElement, 'textbox');
 
-        fireEvent.keyDown(rootElement, { key: 'ArrowDown' });
-        fireEvent.keyDown(rootElement, { key: 'Enter' });
-        expect(onChangeMock).toHaveBeenCalledTimes(1);
-        expect(inputElement).toHaveValue('first');
+    expect(rootElement).toBeInTheDocument();
+    expect(queryByRole('listbox')).toBeNull();
+    userEvent.click(inputElement);
+    // userEvent.type(inputElement, 'D');
+    // expect(inputElement).toHaveValue('D'); // Это работает
 
-        const clearButton = queryByRole('button', { label: 'Очистить' });
-        expect(clearButton).toBeInTheDocument();
+    const listBox = queryByRole('listbox');
+    expect(listBox).toBeDefined();
 
-        rootElement.focus();
-        fireEvent.click(clearButton);
+    fireEvent.keyDown(rootElement, { key: 'ArrowDown' });
+    fireEvent.keyDown(rootElement, { key: 'Enter' });
+    expect(onChangeMock).toHaveBeenCalledTimes(1);
+    expect(inputElement).toHaveValue('first');
 
-        // await waitFor(() => {
-        //     expect(inputElement).toHaveValue(undefined);
-        // });
-        // expect(listBox).not.toBeInTheDocument();
-        // expect(queryByRole('presentation')).not.toBeInTheDocument();
+    const clearButton = queryByRole('button', { label: 'Очистить' });
+    expect(clearButton).toBeInTheDocument();
 
-        // screen.debug();
+    rootElement.focus();
+    fireEvent.click(clearButton);
+
+    // await waitFor(() => {
+    //     expect(inputElement).toHaveValue(undefined);
+    // });
+    // expect(listBox).not.toBeInTheDocument();
+    // expect(queryByRole('presentation')).not.toBeInTheDocument();
+
+    // screen.debug();
+  });
+
+  it('test console.warn call', () => {
+    jest.useFakeTimers();
+    
+    act(() => {
+      render(<SelectWithSearch />, container);
+    });
+    expect(console.warn).toBeCalled();
+  });
+
+  it('loading test', async () => {
+    const apiHandlerMock = jest.fn(
+      (value) => {
+        console.log('apiHandler', value);  
+        const arr = ['first', 'second', 'third'];
+        if (value === '' || value === undefined || value === null) {
+          return arr
+        } else {
+          return arr.filter(item => item.indexOf(value) !== -1);
+        }  
+      }
+    );
+    const onChangeMock = jest.fn(value => value);
+
+    await act(async () => {
+      render(
+        <SelectWithSearch
+          value={null}
+          label="test label"
+          apiHandler={apiHandlerMock}
+          onChange={onChangeMock}
+          options={['first', 'second', 'third']}
+        />,
+        container
+      );
     });
 
-    it('test console.warn call', () => {
-        global.console={warn: jest.fn()};
-        act(() => {
-          render(<SelectWithSearch />, container);
-        });
-        expect(console.warn).toBeCalled();
+    const rootElement = screen.getByRole('combobox');
+    const inputElement = globalGetByRole(rootElement, 'textbox');
+    expect(inputElement).toBeInTheDocument();
+
+    userEvent.click(inputElement);
+    userEvent.type(inputElement, 'f');
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
     });
+    expect(screen.queryByRole('progressbar')).toBeInTheDocument();
+
+    await act(async () => {
+      jest.advanceTimersByTime(4000);
+    });
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(apiHandlerMock).toHaveBeenCalledTimes(2);
+    });
+
+    screen.debug();
+  });
 });

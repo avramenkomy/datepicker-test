@@ -8,6 +8,7 @@ import NewRowInput from './components/NewRowInput';
 import FilterSelect from './components/filter_select';
 import InputBaseWithWait from './components/input_base_with_wait';
 import SiteBackdrop from './components/backdrop';
+import SelectWithSearch from './components/select_with_search';
 
 const theme = createTheme({
   palette: {
@@ -39,12 +40,22 @@ const props = {
 
 const onInput = () => { console.log('onInput') }
 
+const apiHandler = (value) => {
+  console.log('apihandler', value);
+  const arr = ['first', 'second', 'third'];
+  if (value === '' || value === undefined || value === null) {
+    return arr
+  } else {
+    return arr.filter(item => item.indexOf(value) !== -1);
+  }  
+}
+
 function App() {
   const classes = useStyles();
   
   return (
     <ThemeProvider theme={theme}>
-      <SiteBackdrop open_state={true} />
+      {/* <SiteBackdrop open_state={true} /> */}
       <Grid container spacing={1} className={classes.root}>
         <Grid item xs={12}>
           <ReportPeriod />
@@ -61,6 +72,10 @@ function App() {
         <Grid item xs={12}>
           <InputBaseWithWait onInput={onInput} placeholder="Поиск" inputProps={{ 'aria-label': 'Поиск' }}/>
         </Grid>
+        <Grid item xs={12}>
+          <SelectWithSearch apiHandler={apiHandler} options={['first', 'second', 'third']} />
+        </Grid>
+        
       </Grid>
     </ThemeProvider>
   );
